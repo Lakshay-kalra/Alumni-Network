@@ -24,7 +24,7 @@ const Login = ({ setUser }) => {
     <div className="auth-container">
       <div className="glass-card fade-in">
         <div className="text-center mb-4">
-          <h2 className="gradient-text fs-1 mb-2">AluminiConnect</h2>
+          <h2 className="gradient-text fs-1 mb-2">Alumni Network</h2>
           <p className="text-muted">Welcome back! Please login to your account.</p>
         </div>
 
@@ -33,25 +33,25 @@ const Login = ({ setUser }) => {
         <form onSubmit={handleLogin}>
           <div className="mb-3">
             <label className="form-label text-light">Email Address</label>
-            <input 
-              type="email" 
-              className="form-control" 
-              placeholder="you@college.edu" 
+            <input
+              type="email"
+              className="form-control"
+              placeholder="you@college.edu"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required 
+              required
             />
           </div>
 
           <div className="mb-4">
             <label className="form-label text-light">Password</label>
-            <input 
-              type="password" 
-              className="form-control" 
+            <input
+              type="password"
+              className="form-control"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required 
+              required
             />
           </div>
 

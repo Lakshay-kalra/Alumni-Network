@@ -42,7 +42,7 @@ const Register = ({ setUser }) => {
     <div className="auth-container py-5">
       <div className="glass-card fade-in" style={{ maxWidth: '600px' }}>
         <div className="text-center mb-4">
-          <h2 className="gradient-text fs-2 mb-2">Join AluminiConnect</h2>
+          <h2 className="gradient-text fs-2 mb-2">Join Alumni Network</h2>
           <p className="text-muted">Create your account to start networking</p>
         </div>
 

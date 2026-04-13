@@ -28,7 +28,7 @@ const seedData = async () => {
       password: adminHashedPassword,
       role: 'admin',
       profilePicture: 'https://ui-avatars.com/api/?name=Admin+User&background=0D8ABC&color=fff',
-      bio: 'System Administrator for CampusConnect',
+      bio: 'System Administrator for Alumni Network',
     });
 
     // Create Dummy Students & Alumni

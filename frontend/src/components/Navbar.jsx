@@ -21,7 +21,7 @@ const Navbar = ({ user, setUser }) => {
   return (
     <nav className="navbar navbar-expand-lg sticky-top">
       <div className="container">
-        <Link className="navbar-brand gradient-text fs-4" to="/">CampusConnect</Link>
+        <Link className="navbar-brand gradient-text fs-4" to="/">Alumni Network</Link>
         <button className="navbar-toggler bg-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span className="navbar-toggler-icon"></span>
         </button>
