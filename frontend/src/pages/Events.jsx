@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Calendar, MapPin, Clock, Users, PlusCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { apiUrl } from '../proxy';
 
 const Events = ({ user }) => {
   const [events, setEvents] = useState([]);
@@ -14,7 +15,7 @@ const Events = ({ user }) => {
   const fetchEvents = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/events', config);
+      const { data } = await axios.get(apiUrl('/api/events'), config);
       setEvents(data);
     } catch (error) {
       console.error('Error fetching events:', error);
@@ -26,7 +27,7 @@ const Events = ({ user }) => {
   const joinEvent = async (event) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/events/${event._id}/join`, {}, config);
+      await axios.put(apiUrl(`/api/events/${event._id}/join`), {}, config);
       alert(`Successfully RSVP'd for ${event.title}! A notification has been sent to your Messages.`);
       fetchEvents(); // Refresh
     } catch (error) {

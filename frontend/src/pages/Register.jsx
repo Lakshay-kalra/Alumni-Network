@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiUrl } from '../proxy';
 
 const Register = ({ setUser }) => {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ const Register = ({ setUser }) => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/register', formData);
+      const { data } = await axios.post(apiUrl('/api/auth/register'), formData);
       localStorage.setItem('userInfo', JSON.stringify(data));
       setUser(data);
       navigate('/dashboard');

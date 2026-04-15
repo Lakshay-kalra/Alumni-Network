@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Search, MapPin, Award, User, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { apiUrl } from '../proxy';
 
 const Directory = () => {
   const [users, setUsers] = useState([]);
@@ -28,11 +29,11 @@ const Directory = () => {
       if (roleFilter) query += `&role=${roleFilter}`;
       if (branchFilter) query += `&branch=${branchFilter}`;
       
-      const { data } = await axios.get(`http://localhost:5000/api/users${query}`, config);
+      const { data } = await axios.get(apiUrl(`/api/users${query}`), config);
       setUsers(data);
 
       if (loggedUser.role === 'alumni') {
-        const profileRes = await axios.get(`http://localhost:5000/api/users/profile/${loggedUser._id}`, config);
+        const profileRes = await axios.get(apiUrl(`/api/users/profile/${loggedUser._id}`), config);
         setMentoredByMe((profileRes.data.mentoredStudents || []).map(s => s._id || s));
       }
     } catch (error) {
@@ -45,7 +46,7 @@ const Directory = () => {
   const handleToggleMentor = async (studentId) => {
     try {
       const config = { headers: { Authorization: `Bearer ${loggedUser.token}` } };
-      const { data } = await axios.post(`http://localhost:5000/api/users/mentor/${studentId}`, {}, config);
+      const { data } = await axios.post(apiUrl(`/api/users/mentor/${studentId}`), {}, config);
       setMentoredByMe(data || []);
     } catch (error) {
       console.error('Error toggling mentor status', error);

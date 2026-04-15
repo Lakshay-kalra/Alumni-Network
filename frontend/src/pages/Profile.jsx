@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { MapPin, Award, MessageCircle, Edit2 } from 'lucide-react';
 import { FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa';
+import { apiUrl } from '../proxy';
 
 const Profile = ({ currentUser }) => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const Profile = ({ currentUser }) => {
         ...editForm,
         areasOfInterest: editForm.areasOfInterest ? editForm.areasOfInterest.split(',').map(s => s.trim()).filter(x => x) : []
       };
-      const { data } = await axios.put(`http://localhost:5000/api/users/profile/${id}`, payload, config);
+      const { data } = await axios.put(apiUrl(`/api/users/profile/${id}`), payload, config);
       setProfile({ ...profile, ...data, mentoringStatus: payload.mentoringStatus, areasOfInterest: payload.areasOfInterest, bio: payload.bio });
       setIsEditing(false);
     } catch (error) {
@@ -30,7 +31,7 @@ const Profile = ({ currentUser }) => {
     const fetchProfile = async () => {
       try {
         const config = { headers: { Authorization: `Bearer ${currentUser.token}` } };
-        const { data } = await axios.get(`http://localhost:5000/api/users/profile/${id}`, config);
+        const { data } = await axios.get(apiUrl(`/api/users/profile/${id}`), config);
         setProfile(data);
       } catch (error) {
         console.error('Error fetching profile:', error);

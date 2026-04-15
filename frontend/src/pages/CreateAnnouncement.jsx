@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import { apiUrl } from '../proxy';
 
 const CreateAnnouncement = ({ user }) => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const CreateAnnouncement = ({ user }) => {
     try {
       setLoading(true);
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/announcements', formData, config);
+      await axios.post(apiUrl('/api/announcements'), formData, config);
       alert('Announcement created successfully!');
       navigate('/dashboard');
     } catch (error) {

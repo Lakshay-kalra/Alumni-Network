@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { apiUrl } from '../proxy';
 
 const Login = ({ setUser }) => {
   const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ const Login = ({ setUser }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const { data } = await axios.post(apiUrl('/api/auth/login'), { email, password });
       localStorage.setItem('userInfo', JSON.stringify(data));
       setUser(data);
       navigate('/dashboard');

@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
+const fs = require('fs');
 const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
@@ -65,11 +66,18 @@ console.log('URI in server:', process.env.MONGO_URI); mongoose.connect(process.e
 
 // Serve frontend in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+  const frontendDistPath = path.join(__dirname, '../frontend/dist');
+  const frontendIndexPath = path.join(frontendDistPath, 'index.html');
 
-  app.get(/.*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend/dist', 'index.html'));
-  });
+  if (fs.existsSync(frontendIndexPath)) {
+    app.use(express.static(frontendDistPath));
+
+    app.get(/.*/, (req, res) => {
+      res.sendFile(frontendIndexPath);
+    });
+  } else {
+    console.warn(`Frontend build not found at ${frontendIndexPath}. Skipping static file serving.`);
+  }
 }
 
 const PORT = process.env.PORT || 5000;

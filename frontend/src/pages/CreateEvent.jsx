@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, UploadCloud, Plus, X } from 'lucide-react';
+import { apiUrl } from '../proxy';
 
 const CreateEvent = ({ user }) => {
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ const CreateEvent = ({ user }) => {
     try {
       setLoading(true);
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/events', formData, config);
+      await axios.post(apiUrl('/api/events'), formData, config);
       alert('Event created successfully!');
       navigate('/events');
     } catch (error) {

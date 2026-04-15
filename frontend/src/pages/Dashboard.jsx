@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Calendar, Megaphone, Users, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { apiUrl } from '../proxy';
 
 const Dashboard = ({ user }) => {
   const [announcements, setAnnouncements] = useState([]);
@@ -15,8 +16,8 @@ const Dashboard = ({ user }) => {
           headers: { Authorization: `Bearer ${user.token}` }
         };
         const [annRes, eventRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/announcements', config),
-          axios.get('http://localhost:5000/api/events', config)
+          axios.get(apiUrl('/api/announcements'), config),
+          axios.get(apiUrl('/api/events'), config)
         ]);
         setAnnouncements(annRes.data.slice(0, 5)); // First 5
         setEvents(eventRes.data.slice(0, 3)); // Top 3

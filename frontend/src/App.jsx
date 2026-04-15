@@ -10,6 +10,7 @@ import Events from './pages/Events';
 import CreateEvent from './pages/CreateEvent';
 import Directory from './pages/Directory';
 import Chat from './pages/Chat';
+import Home from './pages/Home';
 import './index.css';
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
       <div className="app-container">
         {user && <Navbar user={user} setUser={setUser} />}
         <Routes>
-          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+          <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Home />} />
           <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to="/dashboard" />} />
           <Route path="/register" element={!user ? <Register setUser={setUser} /> : <Navigate to="/dashboard" />} />
           <Route path="/announcements/create" element={user && user.role === 'admin' ? <CreateAnnouncement user={user} /> : <Navigate to="/dashboard" />} />

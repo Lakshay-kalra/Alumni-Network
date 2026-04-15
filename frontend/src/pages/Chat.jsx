@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 import { Send, User as UserIcon } from 'lucide-react';
+import { apiUrl, SOCKET_BASE_URL } from '../proxy';
 
 const Chat = ({ user }) => {
   const [conversations, setConversations] = useState([]);
@@ -17,7 +18,7 @@ const Chat = ({ user }) => {
   const preSelectedUserId = queryParams.get('userId');
 
   useEffect(() => {
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(SOCKET_BASE_URL);
     setSocket(newSocket);
     newSocket.emit('join', user._id);
 
@@ -41,12 +42,12 @@ const Chat = ({ user }) => {
   const fetchConversations = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/messages/conversations/list', config);
+      const { data } = await axios.get(apiUrl('/api/messages/conversations/list'), config);
       
       let convos = data;
 
       if (preSelectedUserId && !data.find(c => c._id === preSelectedUserId)) {
-        const { data: preUser } = await axios.get(`http://localhost:5000/api/users/profile/${preSelectedUserId}`, config);
+        const { data: preUser } = await axios.get(apiUrl(`/api/users/profile/${preSelectedUserId}`), config);
         convos = [preUser, ...data];
       }
 
@@ -64,10 +65,10 @@ const Chat = ({ user }) => {
   const handleSelectChat = async (userId) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data: targetUser } = await axios.get(`http://localhost:5000/api/users/profile/${userId}`, config);
+      const { data: targetUser } = await axios.get(apiUrl(`/api/users/profile/${userId}`), config);
       setCurrentChatInfo(targetUser);
 
-      const { data: msgs } = await axios.get(`http://localhost:5000/api/messages/${userId}`, config);
+      const { data: msgs } = await axios.get(apiUrl(`/api/messages/${userId}`), config);
       setMessages(msgs);
     } catch (error) {
       console.error('Error selecting chat:', error);
@@ -80,7 +81,7 @@ const Chat = ({ user }) => {
 
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.post('http://localhost:5000/api/messages', {
+      const { data } = await axios.post(apiUrl('/api/messages'), {
         receiverId: currentChatInfo._id,
         text: newMessage
       }, config);
