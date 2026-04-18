@@ -24,6 +24,8 @@ const io = new Server(server, {
   }
 });
 
+mongoose.set('bufferCommands', false);
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -55,14 +57,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// Database Connection
-console.log('URI in server:', process.env.MONGO_URI); mongoose.connect(process.env.MONGO_URI, {
-  
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch(err => {
-  console.error('MongoDB connection error:', err);
-});
+const PORT = process.env.PORT || 5000;
 
 // Serve frontend in production
 if (process.env.NODE_ENV === 'production') {
@@ -80,7 +75,30 @@ if (process.env.NODE_ENV === 'production') {
   }
 }
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  if (!process.env.MONGO_URI) {
+    console.error('Missing required environment variable: MONGO_URI');
+    process.exit(1);
+  }
+
+  if (!process.env.JWT_SECRET) {
+    console.error('Missing required environment variable: JWT_SECRET');
+    process.exit(1);
+  }
+
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 15000,
+    });
+    console.log('Connected to MongoDB');
+
+    server.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error('MongoDB connection error:', err.message);
+    process.exit(1);
+  }
+};
+
+startServer();

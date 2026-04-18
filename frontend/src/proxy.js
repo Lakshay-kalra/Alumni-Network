@@ -1,4 +1,4 @@
-const DEPLOYED_BACKEND_URL = 'https://alumni-network-aead.onrender.com';
+const DEPLOYED_BACKEND_URL = 'https://alumni-network-r71f.vercel.app';
 
 const cleanUrl = (url = '') => url.replace(/\/$/, '');
 
