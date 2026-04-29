@@ -1,318 +1,289 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { LogIn, ArrowRight, CheckCircle2, ChevronDown, Calendar, Users, Activity, Globe } from 'lucide-react';
-import './Home.css';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Users, Mic, Handshake, Globe, ChevronLeft, ChevronRight } from "lucide-react";
 
-const Home = () => {
-  const events = [
-    {
-      id: 1,
-      date: { month: 'APR', day: '02' },
-      category: 'Workshop',
-      society: 'COMPUTER SCIENCE SOCIETY',
-      title: 'test',
-      datetime: 'Thu, Apr 2, 2026 · 08:55 AM',
-      location: 'test',
-      registered: 0,
-      left: 2,
-      imageUrl: 'https://images.unsplash.com/photo-1544256718-3bcf237f3974?auto=format&fit=crop&q=80&w=2942'
-    },
-    {
-      id: 2,
-      date: { month: 'APR', day: '14' },
-      category: 'Competition',
-      society: 'ACADEMIC DEBATE SOCIETY',
-      title: 'National University Debate Championship',
-      datetime: 'Tue, Apr 14, 2026 · 09:00 AM',
-      location: 'Main Lecture Theatre',
-      registered: 1,
-      left: 149,
-      imageUrl: 'https://images.unsplash.com/photo-1475721025501-c1f0b0933ba1?auto=format&fit=crop&q=80&w=2940'
-    },
-    {
-      id: 3,
-      date: { month: 'APR', day: '16' },
-      category: 'Competition',
-      society: 'COMPUTER SCIENCE SOCIETY',
-      title: 'UniHack 2026 — 24-Hour Hackathon',
-      datetime: 'Thu, Apr 16, 2026 · 06:00 PM',
-      location: 'CS Building — All Labs',
-      registered: 1,
-      left: 99,
-      imageUrl: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=2940'
-    },
-    {
-      id: 4,
-      date: { month: 'APR', day: '17' },
-      category: 'Sports',
-      society: 'FOOTBALL (SOCCER) CLUB',
-      title: 'University Soccer League — Season Opener',
-      datetime: 'Fri, Apr 17, 2026 · 02:00 PM',
-      location: 'University Playing Fields',
-      registered: 0,
-      left: 300,
-      imageUrl: 'https://images.unsplash.com/photo-1518605363364-77e87b7a66e4?auto=format&fit=crop&q=80&w=2940'
-    }
-  ];
+export default function Home() {
+  const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
 
-  const col1 = [
-    {
-      id: 1,
-      name: 'Sarah Al-Rashidi',
-      role: 'CS Society — President',
-      image: 'https://randomuser.me/api/portraits/women/44.jpg',
-      quote: 'Joining the CS Society in my first year completely transformed my university experience. I went from a shy fresher to leading a club of 200+ members.'
-    },
-    {
-      id: 2,
-      name: 'James Okonkwo',
-      role: 'Basketball Club — Captain',
-      image: 'https://randomuser.me/api/portraits/men/22.jpg',
-      quote: 'The basketball club gave me discipline, teamwork, and some of my closest friends. We won the inter-university championship — a moment I will never forget.'
-    },
-    {
-      id: 3,
-      name: 'Priya Nair',
-      role: 'Debate Society — President',
-      image: 'https://randomuser.me/api/portraits/women/68.jpg',
-      quote: 'Debate club made me a better communicator and critical thinker. I\'ve competed at national level and the confidence it built has carried into every area of my life.'
-    }
-  ];
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const col2 = [
-    {
-      id: 4,
-      name: 'Omar Raza',
-      role: 'Photography Club — Member',
-      image: 'https://randomuser.me/api/portraits/men/46.jpg',
-      quote: 'The Office of Student Life made it incredibly easy to register for events and find clubs that match my interests. The platform is intuitive and the events are fantastic.'
-    },
-    {
-      id: 5,
-      name: 'Zainab Hussain',
-      role: 'Drama Society — Lead Actress',
-      image: 'https://randomuser.me/api/portraits/women/32.jpg',
-      quote: 'Being part of the Drama Society helped me overcome stage fright. Now I perform in front of hundreds of students — something I never thought possible.'
-    },
-    {
-      id: 6,
-      name: 'Aliza Khan',
-      role: 'Entrepreneurship Club — Founder',
-      image: 'https://randomuser.me/api/portraits/women/12.jpg',
-      quote: 'Running the Entrepreneurship Club connected me with mentors and fellow founders. We launched a startup together that\'s now generating real revenue.'
-    }
-  ];
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
 
-  const col3 = [
-    {
-      id: 7,
-      name: 'Hassan Ali',
-      role: 'Robotics Club — Team Lead',
-      image: 'https://randomuser.me/api/portraits/men/32.jpg',
-      quote: 'I joined the Robotics Club knowing almost nothing. A year later I co-led our team to second place in a national competition. The mentorship here is unmatched.'
-    },
-    {
-      id: 8,
-      name: 'Farhan Siddiqui',
-      role: 'Community Outreach — Coordinator',
-      image: 'https://randomuser.me/api/portraits/men/11.jpg',
-      quote: 'The volunteering opportunities through Student Life have been incredibly rewarding. It\'s amazing how much impact a small group of students can have on the local community.'
-    },
-    {
-      id: 9,
-      name: 'Sana Sheikh',
-      role: 'Music Society — Lead Vocalist',
-      image: 'https://randomuser.me/api/portraits/women/24.jpg',
-      quote: 'The Music Society gave me a stage when I had none. From open mic nights to the annual concert — these experiences shaped who I am as an artist.'
-    }
-  ];
-
-  const faqs = [
-    'How do I register for an event?',
-    'Do I need an account to register for events?',
-    'How do I find clubs on campus?',
-    'Can I register for more than one event?',
-    'How do I contact a club?',
-    'Who do I contact for registration problems?'
-  ];
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
   return (
-    <div className="landing-page">
-      {/* Navigation */}
-      <nav className="landing-nav">
-        <div className="nav-container">
-          <div className="nav-logo">
-            <span className="logo-text">CHITKARA</span>
-            <span className="logo-subtext">UNIVERSITY</span>
-            <div className="logo-icon">
-               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-rss"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-            </div>
-          </div>
-          <div className="nav-links">
-            <a href="#" className="active">Home</a>
-            <a href="#">Clubs</a>
-            <a href="#">Events</a>
-          </div>
-          <Link to="/login" className="login-btn">
-            <LogIn size={18} /> Login
-          </Link>
+    <div className="font-sans text-gray-800">
+
+      {/* NAVBAR */}
+      <nav className={`fixed w-full z-50 px-10 py-5 flex justify-between items-center transition-all duration-300
+        ${scrolled ? "bg-[#0B1F3A]/90 backdrop-blur-md shadow-md" : "bg-transparent"}`}>
+
+        <img src="/logo.png" className="h-10 cursor-pointer hover:scale-105 transition"
+          onClick={() => scrollTo("home")} alt="Logo" />
+
+        <div className="hidden md:flex items-center gap-10 text-white text-sm tracking-wide">
+          {["Home","Our Story","Community","Spotlight","Events"].map((item,i)=>(
+            <button key={i}
+              onClick={()=>scrollTo(["home","story","network","spotlight","testimonials"][i])}
+              className={`relative ${i===0?"text-[#F5B400]":""}`}>
+              {item}
+              <span className="absolute left-0 -bottom-2 w-0 h-[2px] bg-[#F5B400] transition-all duration-300 hover:w-full"></span>
+            </button>
+          ))}
+
+          <button onClick={handleLogin}
+            className="bg-[#123A6F] px-6 py-2 rounded-lg hover:bg-[#0F2F5A] transition shadow">
+            Login
+          </button>
         </div>
       </nav>
 
-      {/* Stats Banner */}
-      <div className="stats-banner">
-        <div className="stat-item">
-          <Activity size={32} />
-          <h2>50+</h2>
-          <p>ACTIVE CLUBS</p>
-        </div>
-        <div className="stat-item">
-          <Calendar size={32} />
-          <h2>200+</h2>
-          <p>EVENTS PER YEAR</p>
-        </div>
-        <div className="stat-item">
-          <Users size={32} />
-          <h2>5,000+</h2>
-          <p>STUDENT MEMBERS</p>
-        </div>
-        <div className="stat-item">
-          <Globe size={32} />
-          <h2>12+</h2>
-          <p>CLUB CATEGORIES</p>
-        </div>
-      </div>
+      {/* HERO */}
+      <section id="home"
+        className="h-screen bg-cover bg-center relative flex items-center justify-center text-center text-white"
+        style={{ backgroundImage: "url('/hero.jpg')" }}>
 
-      {/* About Section */}
-      <section className="about-section">
-        <div className="about-content">
-          <div className="section-tag">— ABOUT US</div>
-          <h1 className="section-title">Office of Student Life</h1>
-          <p className="about-lead">
-            The Office of Student Life is dedicated to enriching the university experience through vibrant clubs, exciting events, and a thriving campus community.
-          </p>
-          <p className="about-text">
-            Our mission is to foster personal growth, leadership, and community engagement among all students.
-          </p>
-          <ul className="feature-list">
-            <li><CheckCircle2 size={20} className="check-icon" /> Supporting 50+ registered student clubs</li>
-            <li><CheckCircle2 size={20} className="check-icon" /> Hosting 200+ events every semester</li>
-            <li><CheckCircle2 size={20} className="check-icon" /> Connecting students with leadership opportunities</li>
-          </ul>
-        </div>
-        <div className="about-image-container">
-          <div className="floating-badge">
-            <h3>50+</h3>
-            <p>Active clubs</p>
-          </div>
-          <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&q=80&w=2670" alt="Students" className="about-image" />
-          <h1 className="hashtag-overlay">#Chitkara</h1>
-        </div>
-      </section>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/60 to-black/80"></div>
 
-      {/* Events Section */}
-      <section className="events-section">
-        <div className="events-header">
-          <div>
-            <div className="section-tag">— WHAT'S ON</div>
-            <h2 className="section-title">Upcoming Events</h2>
-            <p className="section-subtitle">Register now — spots fill fast</p>
-          </div>
-          <button className="all-events-btn">
-            All Events <ArrowRight size={18} />
+        <div className="relative z-10 max-w-3xl px-6">
+          <p className="text-xs tracking-[0.3em] text-gray-300 mb-3">
+            CHITKARA HAPPINESS CENTER
+          </p>
+
+          <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
+            ALUMNI NETWORK
+          </h1>
+
+          <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+            Connected by memories,<br />
+            growing through journeys.
+          </p>
+
+          <button onClick={handleLogin}
+            className="bg-[#123A6F] px-7 py-3 rounded-lg text-lg hover:scale-105 transition shadow-lg">
+            Reconnect →
           </button>
         </div>
-        
-        <div className="events-grid">
-          {events.map(event => (
-            <div key={event.id} className="event-card">
-              <div className="event-image-wrapper">
-                <img src={event.imageUrl} alt={event.title} />
-                <div className="date-badge">
-                  <span className="month">{event.date.month}</span>
-                  <span className="day">{event.date.day}</span>
-                </div>
-                <div className="category-badge">{event.category}</div>
+
+        {/* SCROLL */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center text-white opacity-80">
+          <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center p-1">
+            <div className="w-1 h-2 bg-white rounded-full animate-bounce"></div>
+          </div>
+          <p className="text-xs mt-2 tracking-widest text-gray-300">SCROLL</p>
+        </div>
+      </section>
+
+      {/* STORY */}
+      <section id="story" className="py-24 px-10 bg-white">
+        <div className="grid md:grid-cols-2 gap-16 max-w-6xl mx-auto items-center">
+          <div>
+            <p className="text-[#F5B400] text-sm font-bold tracking-wider mb-3 uppercase">Our Story</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 text-[#0B1F3A]">
+              More Than a Place,<br />It’s a Feeling.
+            </h2>
+            <p className="text-gray-500 leading-relaxed mb-8">
+              The Happiness Center was never just a place—it was a feeling.<br/>
+              A space where we learned, laughed, supported each other and grew together.<br/>
+              This network is our way of keeping that connection alive, forever.
+            </p>
+            <button className="bg-[#0B1F3A] text-white px-8 py-3 rounded font-medium hover:bg-[#123A6F] transition shadow">
+              Know More About Us
+            </button>
+          </div>
+
+          <div className="relative">
+            <img src="/landing image.jpeg" alt="The Happiness Center Group"
+              className="rounded-3xl shadow-xl hover:scale-105 transition duration-500 object-cover w-full h-auto"/>
+          </div>
+        </div>
+      </section>
+
+      {/* NETWORK */}
+      <section id="network" className="py-24 px-10 bg-[#F8F9FB] text-center">
+        <p className="text-[#F5B400] text-sm font-bold tracking-wider mb-2 uppercase">Stay Connected</p>
+        <h2 className="text-4xl font-extrabold mb-16 text-[#0B1F3A]">What You Can Do</h2>
+
+        <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          {[
+            {
+              title: "Share Your Journey",
+              text: "Alumni can share their experiences, lessons, and life after college.",
+              icon: <Users size={24} className="text-yellow-500" />,
+              bg: "bg-yellow-50"
+            },
+            {
+              title: "Host Sessions",
+              text: "Conduct interactive sessions, talks, and workshops for students.",
+              icon: <Mic size={24} className="text-blue-500" />,
+              bg: "bg-blue-50"
+            },
+            {
+              title: "Mentor & Get Mentored",
+              text: "Alumni can guide students, and students can choose mentors that fit their goals.",
+              icon: <Handshake size={24} className="text-green-500" />,
+              bg: "bg-green-50"
+            },
+            {
+              title: "Revive the Bond",
+              text: "Join online meetups and reconnect with the Happiness Center community.",
+              icon: <Globe size={24} className="text-purple-500" />,
+              bg: "bg-purple-50"
+            }
+          ].map((item, i) => (
+            <div key={i}
+              className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 flex flex-col items-center text-center">
+
+              <div className={`h-16 w-16 ${item.bg} rounded-full mb-6 flex items-center justify-center`}>
+                {item.icon}
               </div>
-              <div className="event-details">
-                <p className="event-society">{event.society}</p>
-                <h3 className="event-title">{event.title}</h3>
-                <div className="event-meta">
-                  <p><Calendar size={14} className="meta-icon" /> {event.datetime}</p>
-                  <p><Activity size={14} className="meta-icon" /> {event.location}</p>
-                </div>
-                <div className="event-stats">
-                  <span><Users size={14} className="meta-icon" /> {event.registered} registered</span>
-                  <span className="spots-left">{event.left} left</span>
-                </div>
-                <div className="progress-bar">
-                  <div className="progress" style={{ width: `${(event.registered / (event.registered + event.left)) * 100}%` }}></div>
-                </div>
-              </div>
+
+              <h3 className="font-bold text-[#0B1F3A] mb-3 text-lg">{item.title}</h3>
+
+              <p className="text-sm text-gray-500 mb-6 flex-grow">
+                {item.text}
+              </p>
+
+              <a href="#" className="text-sm font-semibold text-[#0B1F3A] hover:text-[#F5B400] transition">
+                Learn More →
+              </a>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="testimonials-section">
-        <div className="section-tag centered">— STUDENT VOICES</div>
-        <h2 className="section-title centered text-white">What Our Students Say</h2>
-        <p className="section-subtitle centered text-gray">
-          Hear from students whose university lives <br /> were transformed by getting involved in <br /> campus clubs and events.
-        </p>
+      {/* SPOTLIGHT */}
+      <section id="spotlight" className="py-24 px-10 bg-white">
+        <div className="grid md:grid-cols-2 gap-16 max-w-6xl mx-auto items-center">
 
-        <div className="testimonials-masonry">
-          {[col1, col2, col3].map((column, colIndex) => (
-            <div key={colIndex} className={`masonry-column ${colIndex === 1 ? 'pt-12' : ''}`}>
-              <div 
-                className={`masonry-column-inner ${colIndex % 2 === 0 ? 'scroll-slow' : 'scroll-fast'}`}
-              >
-                {[...column, ...column].map((testimonial, idx) => (
-                  <div 
-                    key={`${testimonial.id}-${idx}`} 
-                    className="testimonial-card"
-                  >
-                    <p className="quote">{testimonial.quote}</p>
-                    <div className="user-info mt-4">
-                      <img src={testimonial.image} alt={testimonial.name} className="user-avatar" />
-                      <div>
-                        <h4>{testimonial.name}</h4>
-                        <p>{testimonial.role}</p>
-                      </div>
-                    </div>
+          <div>
+            <p className="text-[#F5B400] text-sm font-bold tracking-wider mb-2 uppercase">Alumni Spotlight</p>
+            <h2 className="text-4xl font-extrabold mb-8 text-[#0B1F3A]">Stories That Inspire</h2>
+
+            <div className="text-[60px] leading-none text-[#F5B400] font-serif mb-4">“</div>
+
+            <p className="text-xl text-gray-500 italic leading-relaxed mb-8">
+              Happiness Center gave me the confidence to dream bigger and the support to chase those dreams. The bonds and lessons from here stay with me every day.
+            </p>
+
+            <div className="mb-8">
+              <p className="font-bold text-[#0B1F3A] text-lg">Muskaan Arora</p>
+              <p className="text-sm text-gray-400">Batch of 2022</p>
+              <p className="text-sm text-gray-400">Content Creator | Storyteller</p>
+            </div>
+
+            {/* Dots */}
+            <div className="flex gap-2">
+              <div className="h-2 w-6 bg-[#0B1F3A] rounded-full"></div>
+              <div className="h-2 w-2 bg-gray-200 rounded-full"></div>
+              <div className="h-2 w-2 bg-gray-200 rounded-full"></div>
+              <div className="h-2 w-2 bg-gray-200 rounded-full"></div>
+            </div>
+          </div>
+
+          <div className="relative">
+            <img src="/person.jpg" alt="Muskaan Arora"
+              className="rounded-3xl shadow-xl object-cover w-full h-auto"/>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section id="testimonials" className="py-24 px-10 bg-[#F8F9FB] text-center relative">
+        <p className="text-[#F5B400] text-sm font-bold tracking-wider mb-2 uppercase">Voices of Happiness</p>
+        <h2 className="text-4xl font-extrabold mb-12 text-[#0B1F3A]">What Our Alumni Say</h2>
+
+        <div className="max-w-7xl mx-auto relative flex items-center justify-center">
+          
+          <button className="hidden md:flex absolute -left-4 md:-left-12 bg-[#0B1F3A] text-white p-2 rounded-full hover:scale-110 transition z-10">
+            <ChevronLeft size={24} />
+          </button>
+
+          <div className="grid md:grid-cols-3 gap-6 w-full">
+            {[
+              {
+                quote: "The Happiness Center isn't just a memory, it's a part of who I am today. Grateful for the people, values and joy it gave me.",
+                name: "Rohit Mehta",
+                batch: "Batch of 2021",
+                avatar: "https://randomuser.me/api/portraits/men/44.jpg"
+              },
+              {
+                quote: "From late-night talks to life-changing lessons—this place shaped my journey. Proud to stay connected with this amazing community.",
+                name: "Simran Kaur",
+                batch: "Batch of 2020",
+                avatar: "https://randomuser.me/api/portraits/women/44.jpg"
+              },
+              {
+                quote: "Being a part of this network makes me feel I'm still home, no matter where I am.",
+                name: "Aman Verma",
+                batch: "Batch of 2019",
+                avatar: "https://randomuser.me/api/portraits/men/46.jpg"
+              }
+            ].map((t, i) => (
+              <div key={i} className="bg-white p-8 rounded-2xl shadow-sm text-left flex flex-col justify-between">
+                <div>
+                  <div className="text-[40px] leading-none text-[#0B1F3A] font-serif mb-2">“</div>
+                  <p className="text-gray-500 text-sm leading-relaxed mb-8">
+                    {t.quote}
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover" />
+                  <div>
+                    <p className="font-bold text-[#0B1F3A] text-sm">{t.name}</p>
+                    <p className="text-xs text-gray-400">{t.batch}</p>
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          <button className="hidden md:flex absolute -right-4 md:-right-12 bg-[#0B1F3A] text-white p-2 rounded-full hover:scale-110 transition z-10">
+            <ChevronRight size={24} />
+          </button>
+
+        </div>
+
+        {/* DOTS */}
+        <div className="flex justify-center gap-2 mt-12">
+          <div className="h-2 w-6 bg-[#0B1F3A] rounded-full"></div>
+          <div className="h-2 w-2 bg-gray-300 rounded-full"></div>
+          <div className="h-2 w-2 bg-gray-300 rounded-full"></div>
+          <div className="h-2 w-2 bg-gray-300 rounded-full"></div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="faq-section">
-        <div className="section-tag centered">— FAQ</div>
-        <h2 className="section-title centered">Frequently Asked Questions</h2>
-        <p className="section-subtitle centered">
-          Everything you need to know about clubs and events. <span className="text-red">Contact us</span> if you need more help.
-        </p>
+      {/* CTA */}
+      <section id="cta"
+        className="py-24 px-10 text-white text-center bg-[#0B1F3A] relative overflow-hidden">
 
-        <div className="faq-list">
-          {faqs.map((faq, index) => (
-            <div key={index} className="faq-item">
-              <span>{faq}</span>
-              <ChevronDown size={20} className="faq-icon" />
-            </div>
-          ))}
+        <div className="absolute inset-0 opacity-10 bg-[url('/pattern.png')]"></div>
+
+        <div className="relative z-10 max-w-2xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Be Part of the Journey
+          </h2>
+
+          <p className="text-lg text-gray-300 mb-10 leading-relaxed">
+            Stay connected with the Happiness Center,<br/> wherever life takes you.
+          </p>
+
+          <button onClick={handleLogin}
+            className="bg-[#F5B400] text-[#0B1F3A] px-8 py-3 rounded font-bold hover:scale-105 transition shadow-lg flex items-center justify-center mx-auto gap-2">
+            Join the Network <span>→</span>
+          </button>
         </div>
       </section>
 
-      {/* Credit Badge */}
-      <div className="custom-credit">
-        <span className="credit-text">Made by <span className="highlight">Lakshay Kalra</span></span>
-      </div>
     </div>
   );
-};
-
-export default Home;
+}
